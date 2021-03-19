@@ -43,7 +43,6 @@ public class Login extends HttpServlet {
 			System.out.println(m);
 			Utilisateur u = m.getUser(login, password);
 			session.setAttribute("utilisateur", u);
-			System.out.println("yes!!!!!!");
 			if(((AUser) u).isBibliothecaire()) {
 				response.sendRedirect("/Librarian");
 			}

@@ -5,24 +5,25 @@ import mediatek2021.Utilisateur;
 
 import java.time.LocalDate;
 
-public class ADocument implements Document {
+public abstract class ADocument implements Document {
     private int numero;
-    private String titre;
+    private final String titre;
     private LocalDate date;
     private EtatDocument etat;
+    private final String description;
 
-    public ADocument(String titre, LocalDate date, EtatDocument etat) {
+    public ADocument(String titre, LocalDate date, String desc, EtatDocument etat) {
         super();
+        numero = 0;
         this.titre = titre;
         this.date = date;
         this.etat = etat;
+        this.description = desc;
     }
-    public ADocument(int numero, String titre, LocalDate date, EtatDocument etat) {
-        super();
-        this.titre = titre;
-        this.date = date;
-        this.numero = numero;
-        this.etat = etat;
+
+    public ADocument(int id ,String titre, LocalDate date, String desc, EtatDocument etat) {
+        this(titre,date,desc,etat);
+        numero = id;
     }
 
     @Override
@@ -58,6 +59,8 @@ public class ADocument implements Document {
     public int getNumero() {
         return numero;
     }
+
+    public String getDescription(){ return description;}
 
     @Override
     public String toString() {

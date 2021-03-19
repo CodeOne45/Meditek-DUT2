@@ -9,9 +9,9 @@ import aman.fr.persistantdata.modele.user.User;
 import mediatek2021.Utilisateur;
 
 
-public class Users extends DataBase<Utilisateur> {
+public class UsersDB extends DAO<Utilisateur> {
 	
-	public Users() {
+	public UsersDB() {
 		super();
 	}
 	
@@ -20,7 +20,7 @@ public class Users extends DataBase<Utilisateur> {
 		AUser newUser = (AUser) tuple;
 		PreparedStatement requeste = null;
 		try {
-			requeste = this.getConnexion().prepareStatement("INSERT INTO user(email,pwd, isBibliothecaire) VALUES(?,?,?)");
+			requeste = this.getConnexion().prepareStatement("INSERT INTO users(email,pwd, isBibliothecaire) VALUES(?,?,?)");
 			requeste.setString(1, newUser.getLogin());
 			requeste.setString(2,newUser.getPassword());
 			requeste.setString(3, newUser.isBibliothecaire()?"1":"0");
@@ -49,9 +49,9 @@ public class Users extends DataBase<Utilisateur> {
 	}
 
 	@Override
-	public void delete(int id) {
+	public boolean delete(int id) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	public Utilisateur authentification(String login, String password) {
@@ -61,14 +61,9 @@ public class Users extends DataBase<Utilisateur> {
 		Statement stat = null;
 		System.out.println("Get in authentification...");
 		try {
-			stm = this.getConnexion().prepareStatement("SELECT * FROM user WHERE email=?");
+			stm = this.getConnexion().prepareStatement("SELECT * FROM users WHERE email=?");
 			stm.setString(1, login);
 			result = stm.executeQuery();
-
-			/*String query = 'Select * FROM user';
-			stat = this.getConnexion().createStatement();
-
-			result = stat.executeQuery(query);*/
 
 			if (result.next())
 			{

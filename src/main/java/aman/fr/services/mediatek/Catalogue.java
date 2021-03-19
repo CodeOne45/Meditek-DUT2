@@ -5,6 +5,7 @@ import mediatek2021.Document;
 import mediatek2021.Mediatek;
 import mediatek2021.NewDocException;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,29 +21,22 @@ public class Catalogue extends HttpServlet {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         AUser u = (AUser) request.getSession().getAttribute("utilisateur");
-        int typeDocument = Integer.parseInt(request.getParameter("typeAjout"));
+        String typeDocument = request.getParameter("addType");
         if (u == null) {
-            response.sendRedirect("/projet-app-web-java/Login");
+            response.sendRedirect("/Login");
         } else if (u.isBibliothecaire()) {
-            response.sendRedirect("/projet-app-web-java/Login");
-        } else {
-            List<Document> documents;
-            switch(typeDocument) {
-                case 1:
-                    documents.add(Mediatek.getInstance().catalogue(1));
-                case 2:
-                    documents.add(Mediatek.getInstance().catalogue(2));
-                case 3:
-                    documents.add(Mediatek.getInstance().catalogue(2));
-                default:
-                    throw new IllegalStateException("Error on loading a doc");
-            }
-            request.setAttribute("documents", documents);
-
-            this.getServletContext().getRequestDispatcher("/catalogue.jsp").forward(request, response);
+            response.sendRedirect("/Login");
+        } else if (typeDocument == null) {
+            List<Document> documentsList = Mediatek.getInstance().catalogue(4);
+            request.setAttribute("documents", documentsList);
+        }else{
+            int docType = Integer.parseInt(typeDocument);
+            List<Document> documentsList = Mediatek.getInstance().catalogue(docType);
+            request.setAttribute("documents", documentsList);
         }
+        this.getServletContext().getRequestDispatcher("/catalogue.jsp").forward(request, response);
     }
 }

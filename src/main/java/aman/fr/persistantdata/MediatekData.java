@@ -1,14 +1,15 @@
 package aman.fr.persistantdata;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import aman.fr.persistantdata.dataBase.Documents;
-import aman.fr.persistantdata.dataBase.Users;
-import aman.fr.persistantdata.modele.docs.CD;
-import aman.fr.persistantdata.modele.docs.DVD;
-import aman.fr.persistantdata.modele.docs.Livre;
-import aman.fr.persistantdata.modele.statusdoc.Libre;
+import aman.fr.persistantdata.dataBase.DocumentsDB;
+import aman.fr.persistantdata.dataBase.UsersDB;
+import aman.fr.persistantdata.modele.docs.DocType;
+import aman.fr.persistantdata.modele.docs.DocumentFactory;
 import mediatek2021.*;
 
 
@@ -22,18 +23,25 @@ public class MediatekData implements PersistentMediatek {
 		Mediatek.getInstance().setData(new MediatekData());
 	}
 	
-	private Documents docs;
-	private Users user;
+	private DocumentsDB docs;
+	private UsersDB user;
 	
 	private MediatekData() {
-		this.docs = new Documents();
-		this.user = new Users();
+		this.docs = new DocumentsDB();
+		this.user = new UsersDB();
 	}
 
 	// renvoie la liste de tous les documents de la biblioth�que
 	@Override
 	public List<Document> catalogue(int type) {
-		return docs.getAll();
+		//TODO: Change/make it different
+		DocType docType = DocType.getTypeById(type);
+		if (docType == null)
+			return docs.getAll();
+		return docs.getAll().stream().filter(d -> {
+			Class<?> docClass = (Class<?>) d.data()[6];
+			return docClass.getSimpleName().equalsIgnoreCase(docType.toString());
+		}).collect(Collectors.toList());
 	}
 
 	// va r�cup�rer le User dans la BD et le renvoie
@@ -48,7 +56,6 @@ public class MediatekData implements PersistentMediatek {
 	// si pas trouv�, renvoie null
 	@Override
 	public Document getDocument(int numDocument) {
-
 		return docs.getFromId(numDocument);
 	}
 
@@ -58,27 +65,25 @@ public class MediatekData implements PersistentMediatek {
 		// args[0] -> le titre
 		// args [1] --> l'auteur
 		// etc en fonction du type et des infos optionnelles
-		Document d = null;
-		LocalDate dateDoc = LocalDate.parse(args[1].toString());
+		DocType docType = DocType.getTypeById(type);
 
-		switch (type){
-			case 1:
-				d = new Livre(args[0].toString(),dateDoc,args[2].toString(),new Libre());
-				break;
-			case 2:
-				d = new DVD(args[0].toString(),dateDoc,args[2].toString(),args[3].toString(), new Libre());
-				break;
-			case 3:
-				d = new CD(args[0].toString(),dateDoc,args[2].toString(),args[3].toString(), new Libre());
-		}
-		// Add doc ti DB
+		if (docType == null)
+			throw new NewDocException("This type doesn't exist");
+
+		List<Object> normalizedArgs = new ArrayList<>(Arrays.asList(args));
+		normalizedArgs.remove(0);
+		Document d = DocumentFactory.newDocument(args[0].toString(), docType, true, normalizedArgs.toArray());
+
+		// Add doc to DB
 		docs.insert(d);
 	}
 
 	// supprime un document - exception � d�finir
 	@Override
 	public void suppressDoc(int numDoc) throws SuppressException {
-		
+		boolean isDeleted = this.docs.delete(numDoc);
+		if (!isDeleted)
+			throw new SuppressException("Borrowed document ! You can't delete this document");
 	}
 
 }

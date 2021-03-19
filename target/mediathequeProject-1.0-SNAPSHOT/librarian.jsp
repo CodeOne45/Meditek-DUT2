@@ -32,10 +32,8 @@ Created by IntelliJ IDEA.
                                 out.print(user.getLogin()); %>.</h4>
                             <p class="text-secondary mb-1">librarian</p>
                             <p class="text-muted font-size-sm">As a librarian you have access to following services :</p>
-                            <a class="btn btn-outline-primary"  href="/Catalogue">Remove a doc</a>
-                            <a class="btn btn-outline-primary"  href="/book">Add Book</a>
-                            <a class="btn btn-outline-primary"  href="/dvd">Add DVD</a>
-                            <a class="btn btn-outline-primary"  href="/cd">ADD CD</a>
+                            <a class="btn btn-outline-primary"  href="/Catalogue">View all docuemnts</a>
+                            <a class="btn btn-outline-primary"  href="/AddDoc">Add documents</a>
                             <a class="btn btn-outline-primary"  href="/Logout">Logout</a>
                         </div>
                     </div>
