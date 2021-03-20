@@ -18,11 +18,11 @@ public class DocumentsDB extends DAO<Document> {
 		try {
 			this.getConnexion().setAutoCommit(false);
 			requete = this.getConnexion().prepareStatement(
-					"INSERT INTO documents(titre_doc,description,date_doc,borrow,type,id_borrower) VALUES(?,?,?,?,Null)",
+					"INSERT INTO documents(titre_doc,description,borrow,type,id_borrower,date_doc) VALUES(?,?,?,?,Null,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			requete.setString(1, doc.getTitre());
             requete.setString(2, doc.getDescription());
-			requete.setDate(2, Date.valueOf(doc.getDate()));
+			requete.setDate(5, Date.valueOf(doc.getDate()));
 			requete.setString(3, doc.getEtat().getClass().getSimpleName().toLowerCase());
 			requete.setString(4, doc.getClass().getSimpleName());
 
@@ -43,7 +43,7 @@ public class DocumentsDB extends DAO<Document> {
 			} else if (tuple instanceof DVD) {
 				DVD d = (DVD) doc;
 				requete = this.getConnexion()
-						.prepareStatement("INSERT INTO DVD(id_doc, realisateur) VALUES(?,?,?)");
+						.prepareStatement("INSERT INTO DVD(id_doc, realisateur) VALUES(?,?)");
 				requete.setInt(1, id);
 				requete.setString(2, d.getRealisateur());
 			} else if (tuple instanceof CD) {
@@ -170,7 +170,7 @@ public class DocumentsDB extends DAO<Document> {
 
 	@Override
 	public boolean delete(int id) {
-		String deletQuery = "DELETE FROM documents WHERE id_doc = ? AND  id_borrower = ?";
+		String deletQuery = "DELETE FROM documents WHERE id_doc = ? AND  id_borrower IS NULL";
 		try(PreparedStatement stm = super.getConnexion().prepareStatement(deletQuery)){
 			stm.setInt(1, id);
 			int rowCount = stm.executeUpdate();

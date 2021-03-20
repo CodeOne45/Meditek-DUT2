@@ -24,7 +24,7 @@ public class AddDocument extends HttpServlet {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, IOException, ServletException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws  IOException, ServletException {
         HttpSession session = request.getSession();
         request.setAttribute("typeAjout", request.getParameter("typeAjout"));
         AUser u = (AUser) session.getAttribute("utilisateur");
@@ -34,16 +34,13 @@ public class AddDocument extends HttpServlet {
         } else if (!u.isBibliothecaire()) {
             response.sendRedirect("/Login");
         }
-        else if(request.getParameter("typeAjout") == null) {
-            response.sendRedirect("/Login");
-        }
         else {
-            this.getServletContext().getRequestDispatcher("addDoc.jsp").forward(request, response);;
+            this.getServletContext().getRequestDispatcher("/addDoc.jsp").forward(request, response);;
         }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int typeDocument = Integer.parseInt(request.getParameter("typeAjout"));
+        int typeDocument = Integer.parseInt(request.getParameter("type"));
         String titre = request.getParameter("titre");
         String desc = request.getParameter("desc");
 

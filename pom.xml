@@ -40,6 +40,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.23</version>
         </dependency>
+
         <dependency>
             <groupId>mediatek2021</groupId>
             <artifactId>mediatek</artifactId>
@@ -47,6 +48,7 @@
             <version>1.0.0</version>
             <systemPath>${basedir}\src\main\webapp/WEB-INF/lib/mediatek.jar</systemPath>
         </dependency>
+
     </dependencies>
 
     <build>

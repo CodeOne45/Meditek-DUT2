@@ -14,7 +14,7 @@ public class DocumentFactory {
             case BOOK:
                 return new Livre(idDocument, titreDocument, LocalDate.now(), args[1].toString(), args[0].toString(), free? new Libre() : new Emprunte());
             case CD:
-                return new CD(idDocument, titreDocument, LocalDate.now(), args[1].toString(), args[0].toString(), free? new Libre() : new Emprunte());
+                return new CD(idDocument, titreDocument, LocalDate.now(), args[0].toString(), args[1].toString(), free? new Libre() : new Emprunte());
             case DVD:
                 return new DVD(idDocument, titreDocument, LocalDate.now(), args[1].toString(), args[0].toString(), free? new Libre() : new Emprunte());
             default:
@@ -27,7 +27,7 @@ public class DocumentFactory {
             case BOOK:
                 return new Livre(titreDocument, LocalDate.now(), args[1].toString(), args[0].toString(), free? new Libre() : new Emprunte());
             case CD:
-                return new CD(titreDocument, LocalDate.now(), args[1].toString(), args[0].toString(), free? new Libre() : new Emprunte());
+                return new CD(titreDocument, LocalDate.now(), args[0].toString(), args[1].toString(), free? new Libre() : new Emprunte());
             case DVD:
                 return new DVD(titreDocument, LocalDate.now(), args[1].toString(), args[0].toString(), free? new Libre() : new Emprunte());
             default:

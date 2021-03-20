@@ -14,7 +14,6 @@ Created by IntelliJ IDEA.
 
 <div class="p-5 text-center bg-image"
      style="
-      background-image: url('../images/bg-01.jpg');
       height: 400px; ">
     <div class="container-login100" >
         <div class="wrap-login100 p-t-30 p-b-50">
@@ -32,8 +31,11 @@ Created by IntelliJ IDEA.
                                 out.print(user.getLogin()); %>.</h4>
                             <p class="text-secondary mb-1">librarian</p>
                             <p class="text-muted font-size-sm">As a librarian you have access to following services :</p>
-                            <a class="btn btn-outline-primary"  href="/Catalogue">View all docuemnts</a>
-                            <a class="btn btn-outline-primary"  href="/AddDoc">Add documents</a>
+                            <a class="btn btn-outline-primary"  href="/Catalogue?typeAjout=1">View all docuemnts</a>
+                            <a class="btn btn-outline-primary"  href="/AddDoc?type=1">Add Books</a>
+                            <a class="btn btn-outline-primary"  href="/AddDoc?type=2">Add DVDs</a>
+                            <a class="btn btn-outline-primary"  href="/AddDoc?type=3">Add CDs</a>
+                            <a class="btn btn-outline-primary"  href="/DeleteDoc">Delete documents</a>
                             <a class="btn btn-outline-primary"  href="/Logout">Logout</a>
                         </div>
                     </div>

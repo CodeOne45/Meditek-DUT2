@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,15 +22,18 @@ public class Catalogue extends HttpServlet {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
 
-        AUser u = (AUser) request.getSession().getAttribute("utilisateur");
-        String typeDocument = request.getParameter("addType");
+        AUser u = (AUser) session.getAttribute("utilisateur");
+        String typeDocument = request.getParameter("type");
+
         if (u == null) {
             response.sendRedirect("/Login");
-        } else if (u.isBibliothecaire()) {
+        } else if (!u.isBibliothecaire()) {
             response.sendRedirect("/Login");
-        } else if (typeDocument == null) {
+        }else if (typeDocument == null) {
             List<Document> documentsList = Mediatek.getInstance().catalogue(4);
             request.setAttribute("documents", documentsList);
         }else{
@@ -38,5 +42,9 @@ public class Catalogue extends HttpServlet {
             request.setAttribute("documents", documentsList);
         }
         this.getServletContext().getRequestDispatcher("/catalogue.jsp").forward(request, response);
+
+    }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        doGet(request,response);
     }
 }
