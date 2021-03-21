@@ -21,6 +21,10 @@ public class DbConnection {
 		return con;
 	}
 
+	/**
+	 * Make connection to DB
+	 * @return a Connection
+	 */
 	private static Connection connection() {
 		// Connection to JDBC driver
 		try {
@@ -40,21 +44,22 @@ public class DbConnection {
 		}
 		return con;
 	}
-	
+
+	/**
+	 * Test to DB connection
+	 * @param args
+	 * @throws SQLException
+	 */
 	public static void main(String[] args) throws SQLException {
 		Connection coonex = DbConnection.getConnextion();
 		String f1;
-		
-		String query = "Select * FROM user";
+		String query = "Select * FROM users";
 		Statement stat = coonex.createStatement();
-		//stat.execute("INSERT INTO user (email,pwd, isBibliothecaire) VALUES ('malikaman@','123456','0')");
 		ResultSet rs = stat.executeQuery(query);
 		while(rs.next()) {
 			f1 = rs.getString(2);
 			System.out.println(f1);
 		}
-		
-		
 	}
 
 }

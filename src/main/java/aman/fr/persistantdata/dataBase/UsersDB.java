@@ -54,6 +54,12 @@ public class UsersDB extends DAO<Utilisateur> {
 		return false;
 	}
 
+	/**
+	 * Authentification of a user
+	 * @param login email of user
+	 * @param password password of user
+	 * @return user if it's in the DB
+	 */
 	public Utilisateur authentification(String login, String password) {
 		ResultSet result = null;
 		PreparedStatement stm = null;
@@ -68,24 +74,22 @@ public class UsersDB extends DAO<Utilisateur> {
 			if (result.next())
 			{
 				String pwdDB = result.getString("pwd");
-				if (password.equals(pwdDB))
+				if (password.equals(pwdDB)) // Check if the pwd is same
 				{
 					System.out.println("Password correct, access granted to mediatheque!");
-					if (result.getInt("isBibliothecaire") == 1) {
+					if (result.getInt("isBibliothecaire") == 1) { // Create a Librarian
 						u = new Librarian(result.getInt("id_user"), result.getString("email"),
 								result.getString("pwd"));
 					}
-					else{
+					else{ // Create no-libraian/Lmbda user
 						u = new User(result.getInt("id_user"), result.getString("email"),
 								result.getString("pwd"));
 					}
 				} else {
 					System.out.println("Password is incorrect !");
-					//TODO Create password incorrect exception
 				}
 			} else {
 				System.out.println("Email is invalid !");
-				//TODO Create UsernotExost exception
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

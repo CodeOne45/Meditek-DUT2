@@ -30,6 +30,8 @@
                 <thead> Documents</thead>
             </table>
             <tbody>
+            <!--TODO : Make it better-->
+            <!--Note : jstl library is necessair for this part of code-->
             <j:forEach items="${ documents }" var="document">
                 <tr><td><j:out value="${ document }"></j:out><br></td></tr>
             </j:forEach>

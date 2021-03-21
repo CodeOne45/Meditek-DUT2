@@ -19,7 +19,7 @@ public class Librarian extends AUser {
 	
 	@Override
 	public Object[] data() {
-		return null;
+		return super.data();
 	}
 
 	@Override

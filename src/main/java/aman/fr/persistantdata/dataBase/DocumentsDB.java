@@ -20,12 +20,14 @@ public class DocumentsDB extends DAO<Document> {
 			requete = this.getConnexion().prepareStatement(
 					"INSERT INTO documents(titre_doc,description,borrow,type,id_borrower,date_doc) VALUES(?,?,?,?,Null,?)",
 					Statement.RETURN_GENERATED_KEYS);
+			// Insert all data
 			requete.setString(1, doc.getTitre());
             requete.setString(2, doc.getDescription());
 			requete.setDate(5, Date.valueOf(doc.getDate()));
 			requete.setString(3, doc.getEtat().getClass().getSimpleName().toLowerCase());
 			requete.setString(4, doc.getClass().getSimpleName());
 
+			// Add to DB
 			requete.executeUpdate();
 			resultat = requete.getGeneratedKeys();
 
@@ -34,6 +36,7 @@ public class DocumentsDB extends DAO<Document> {
 
 			int id = (int) resultat.getLong(1);
 
+			// Add diffrente type of doc to DB
 			if (tuple instanceof Livre) {
 				Livre l = (Livre) doc;
 
@@ -80,6 +83,7 @@ public class DocumentsDB extends DAO<Document> {
             resultat = requete.executeQuery("SELECT * FROM documents");
 
             while (resultat.next()) {
+            	// Colect data from DB--> documents table
                 int idDocument = resultat.getInt("id_doc");
                 String titreDocument = resultat.getString("titreDocument");
                 String dexcDoc = resultat.getString("description");
@@ -91,7 +95,7 @@ public class DocumentsDB extends DAO<Document> {
 
                 if (getDoc == null || !getDoc.next())
                     return null;
-
+                // Get data based on type of doc
                 String args;
                 switch (type) {
                     case "book":

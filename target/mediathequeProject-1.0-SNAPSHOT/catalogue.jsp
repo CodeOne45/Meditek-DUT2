@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="j" %>
 <%@ page import="aman.fr.persistantdata.modele.docs.ADocument" %>
 <%@ page import="mediatek2021.Document" %>
 <%@ page import="java.util.List" %>
@@ -8,7 +9,6 @@
   Time: 00:26
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="header.jsp" %>
 <style type="text/css">

@@ -35,12 +35,12 @@ public class MediatekData implements PersistentMediatek {
 	@Override
 	public List<Document> catalogue(int type) {
 		//TODO: Change/make it different
-		DocType docType = DocType.getTypeById(type);
-		if (docType == null)
+		DocType dType = DocType.getTypeById(type);
+		if (dType == null)
 			return docs.getAll();
 		return docs.getAll().stream().filter(d -> {
 			Class<?> docClass = (Class<?>) d.data()[6];
-			return docClass.getSimpleName().equalsIgnoreCase(docType.toString());
+			return docClass.getSimpleName().equalsIgnoreCase(dType.toString());
 		}).collect(Collectors.toList());
 	}
 

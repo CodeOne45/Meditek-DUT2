@@ -1,6 +1,7 @@
 package aman.fr.persistantdata.modele.docs;
 
 public enum DocType {
+    // Enum for type of documents
     BOOK(1), DVD(2), CD(3);
 
     private final int typeID;

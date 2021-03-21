@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class CD extends ADocument{
-    private String genre;
     private String artiste;
 
     public CD(String titre, LocalDate date, String genre, String artiste, EtatDocument etat) {

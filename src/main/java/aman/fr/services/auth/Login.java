@@ -30,10 +30,10 @@ public class Login extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// R�cup�ration de la session
+		// Get section
 		HttpSession session = request.getSession();
 
-		// R�cup�ration des informations du formulaire
+		// Get form infomations
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
 		System.out.println(login +" " + password);
@@ -43,6 +43,9 @@ public class Login extends HttpServlet {
 			System.out.println(m);
 			Utilisateur u = m.getUser(login, password);
 			session.setAttribute("utilisateur", u);
+			if(u == null){
+				response.sendRedirect("/Login");
+			}
 			if(((AUser) u).isBibliothecaire()) {
 				response.sendRedirect("/Librarian");
 			}
@@ -50,17 +53,12 @@ public class Login extends HttpServlet {
 				response.sendRedirect("/User");
 			}
 			
-		} catch (Exception e) {
-			request.setAttribute("erreur", "Login invalide");
-			response.sendRedirect("/Login");
-		}
-		/*
-		* catch (UserNotFound e) {
+		} catch (UserNotFoundException e) {
 			request.setAttribute("erreur", "Login invalide");
 			response.sendRedirect("/projet-app-web-java/Login");
-		} catch (IncorectPwd e) {
+		} catch (IncorectPwdException e) {
 			request.setAttribute("erreur", "Mot de passe invalide");
 			response.sendRedirect("/projet-app-web-java/Login");
-		}*/
+		}
 	}
 }

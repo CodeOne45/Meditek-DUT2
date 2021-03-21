@@ -36,6 +36,10 @@ public abstract class AUser implements Utilisateur{
 	public boolean isBibliothecaire() {
 		return false;
 	}
-	
+
+	@Override
+	public Object[] data() {
+		return new Object[]{id, login, password, isBibliothecaire()};
+	}
 	
 }

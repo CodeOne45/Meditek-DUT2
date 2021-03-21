@@ -26,9 +26,10 @@ public abstract class ADocument implements Document {
         numero = id;
     }
 
+
     @Override
     public Object[] data() {
-        return new Object[0];
+        return new Object[]{numero,titre,description,etat,etat.getClass().getSimpleName()};
     }
 
 
@@ -65,7 +66,7 @@ public abstract class ADocument implements Document {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.isEmprunte()?"[EMPRUNTE] ":"[LIBRE] ");
+        sb.append(this.isEmprunte()?"[BOROWED] ":"[FREE] ");
         sb.append(this.getNumero());
         sb.append(" - ");
         sb.append(this.getClass().getSimpleName());

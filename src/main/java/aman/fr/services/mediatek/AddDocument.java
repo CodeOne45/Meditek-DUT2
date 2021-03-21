@@ -44,24 +44,25 @@ public class AddDocument extends HttpServlet {
         String titre = request.getParameter("titre");
         String desc = request.getParameter("desc");
 
-        List<Object> requestList = new ArrayList<>(Arrays.asList(titre, desc));
+        // list of attributes
+        List<Object> attributesList = new ArrayList<>(Arrays.asList(titre, desc));
 
         switch(typeDocument) {
             case 1:
-                requestList.add(request.getParameter("auteur"));
+                attributesList.add(request.getParameter("auteur"));
                 break;
             case 2:
-                requestList.add(request.getParameter("realisateur"));
+                attributesList.add(request.getParameter("realisateur"));
                 break;
             case 3:
-                requestList.add(request.getParameter("artiste"));
+                attributesList.add(request.getParameter("artiste"));
                 break;
             default:
                 throw new IllegalStateException("Error on adding a doc");
         }
 
         try {
-            Mediatek.getInstance().newDocument(typeDocument, requestList.toArray());
+            Mediatek.getInstance().newDocument(typeDocument, attributesList.toArray());
         }catch (NewDocException e){
             e.printStackTrace();
         }
