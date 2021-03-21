@@ -1,2 +1,3 @@
 # Meditek-DUT2
-Web app JAVA EE.
+Web app JAVA EE - DUT App project S4
+
