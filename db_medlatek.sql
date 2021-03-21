@@ -131,12 +131,23 @@ INSERT INTO `users` (`id_user`, `email`, `pwd`, `isBibliothecaire`) VALUES
 ALTER TABLE `book`
   ADD PRIMARY KEY (`id_doc`);
 
+ALTER TABLE `book`
+ADD CONSTRAINT 'FK_dvd'
+  FOREIGN KEY (`id_doc`)
+  REFERENCES `DOCUMENTS` (`id_doc`)
+  ON DELETE CASCADE;
+
 --
 -- Index pour la table `cd`
 --
 ALTER TABLE `cd`
   ADD PRIMARY KEY (`id_doc`);
 
+ALTER TABLE `cd`
+ADD CONSTRAINT 'FK_cd'
+  FOREIGN KEY (`id_doc`)
+  REFERENCES `documents` (`id_doc`)
+  ON DELETE CASCADE;
 --
 -- Index pour la table `documents`
 --
@@ -149,6 +160,11 @@ ALTER TABLE `documents`
 ALTER TABLE `dvd`
   ADD PRIMARY KEY (`id_doc`);
 
+ALTER TABLE `dvd`
+ADD CONSTRAINT 'FK_dvd'
+  FOREIGN KEY (`id_doc`)
+  REFERENCES `documents` (`id_doc`)
+  ON DELETE CASCADE;
 --
 -- Index pour la table `users`
 --
